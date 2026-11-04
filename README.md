@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> **This is a modified, unofficial version of PLANKA.** It is not made, endorsed or supported by PLANKA Software GmbH; the official project is [plankanban/planka](https://github.com/plankanban/planka). It remains under the [PLANKA licenses](LICENSES), for private and non-commercial use. See [what changes and why](docs/plans/board-views/README.md).
+>
+> Working on this fork needs Node.js 24.15 or later and npm 12: npm 11 rewrites the lockfiles without changing any dependency. Run the PostgreSQL test suite with `TEST_DATABASE_URL=postgresql://user@localhost/planka_test npm run server:test:postgres`. It drops the whole schema of that database, so it refuses any name that does not end with `_test`.
+
 <div align="center">
 
   ![Logo](https://raw.githubusercontent.com/plankanban/planka/master/assets/logo.png)

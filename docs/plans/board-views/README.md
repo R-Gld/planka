@@ -52,6 +52,7 @@ Chaque PR a pour base la branche de la précédente.
 - **Avancement :** une PR est ouverte quand ses critères de fin sont remplis. Le travail continue sur la suivante sans attendre la revue, puisque la pile est prévue pour ça.
 - **Correction après revue :** corriger sur la branche concernée, puis `git rebase --update-refs` depuis le sommet de la pile et `git push --force-with-lease` sur chaque branche touchée.
 - **Fusion :** du bas vers le haut, en « merge commit ». Un squash réécrirait les commits et casserait les branches au-dessus. GitHub recible la PR suivante quand la branche de base est supprimée.
+- **Identité de fusion :** toujours `gh pr merge --merge --author-email "$(git config user.email)"`. Sans cette option, GitHub écrit l'adresse principale du compte dans le commit de fusion, qui devient public.
 - **Synchronisation avec `upstream` pendant la pile :** uniquement sur `master`, puis rebase de toute la pile.
 
 ## Critères communs à toute PR
@@ -95,12 +96,15 @@ Le dépôt est public. Seules des informations génériques y entrent : Apache, 
 git log --format='%ae %ce' origin/master..HEAD | sort -u
 ```
 
+Le commit de fusion de la PR 00 porte encore l'adresse principale du compte, voir la PR 01.
+
 ## Avancement
 
 Mettre à jour cette ligne de chaque PR dans la PR elle-même, au moment où elle est ouverte.
 
 | PR | État |
 |---|---|
-| 00 | en revue |
-| 01 à 12 | à faire |
+| 00 | fusionnée |
+| 01 | en revue |
+| 02 à 12 | à faire |
 | Mise en service | à faire |
