@@ -485,6 +485,8 @@ export default {
       users: 'Utilisateurs',
       viewer: 'Spectateur',
       viewers: 'Spectateurs',
+      viewLimitReached:
+        'Affichage de {{shown}} éléments sur {{total}}. Utilisez les filtres pour réduire la liste.',
       visualTaskManagementWithLists: 'Management visuel des tâches avec des listes.',
       webhooks: 'Webhooks',
       whatsNew_title: 'Quoi de neuf',

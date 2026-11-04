@@ -468,6 +468,8 @@ export default {
       users: 'Users',
       viewer: 'Viewer',
       viewers: 'Viewers',
+      viewLimitReached:
+        'Showing {{shown}} of {{total}} items. Use the filters to narrow them down.',
       visualTaskManagementWithLists: 'Visual task management with lists.',
       webhooks: 'Webhooks',
       whatsNew_title: "What's New",
