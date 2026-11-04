@@ -86,17 +86,15 @@ Ils s'ajoutent aux critères de chaque plan. Une PR n'est ouverte que lorsqu'ils
 
 Le dépôt est public. Seules des informations génériques y entrent : Apache, Docker Compose, restic, Let's Encrypt, GitHub Actions.
 
-**Interdit dans le dépôt, les PR, les commits et les messages de CI :** nom de domaine ou sous-domaine réel, IP, fournisseur d'hébergement, port réel, chemins de la machine, nom du service de stockage des sauvegardes, identifiants, adresses e-mail, informations sur les utilisateurs et les autres services du serveur.
+**Interdit dans le dépôt, les PR, les commits et les messages de CI :** nom de domaine ou sous-domaine réel, IP, fournisseur d'hébergement, port réel, chemins de la machine, nom du service de stockage des sauvegardes, identifiants, autres adresses e-mail, informations sur les utilisateurs et les autres services du serveur.
 
 **À la place :** des valeurs factices comme `kanban.example.com`, `<PORT>` ou `<RESTIC_REPOSITORY>`. Les vraies valeurs vivent uniquement sur le serveur, dans des fichiers ignorés par git.
 
-**Identité git :** ce dépôt utilise l'adresse `noreply` de GitHub en configuration locale. Vérifier avant chaque push :
+**Identité git :** les commits de ce dépôt sont signés et utilisent l'adresse publique choisie pour ce projet, en configuration locale. C'est la seule adresse autorisée dans l'historique. Vérifier avant chaque push :
 
 ```sh
 git log --format='%ae %ce' origin/master..HEAD | sort -u
 ```
-
-Le commit de fusion de la PR 00 porte encore l'adresse principale du compte, voir la PR 01.
 
 ## Avancement
 
