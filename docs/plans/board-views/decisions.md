@@ -51,7 +51,9 @@ On consulte les cartes et on les ouvre dans la fenêtre de carte existante, qui 
 
 `en-US` et `fr-FR` sont obligatoires, et les 34 autres langues se rabattent sur l'anglais à l'exécution.
 
-**Conséquence (à valider) :** `npm run locales:check` est vert aujourd'hui, mais il échoue dès qu'une langue manque une clé, donc il passera au rouge à partir de la PR 03. Le critère devient : aucune clé manquante pour `fr-FR` dans la sortie du script. Ce script ne fait pas partie de `lint` ni de la CI, et son en-tête prévoit ce cas.
+**Conséquence (à valider) :** `npm run locales:check` est vert aujourd'hui, mais il échoue dès qu'une langue manque une clé, donc il passera au rouge à partir de la PR 02. Son en-tête prévoit ce cas, et il ne fait partie ni de `lint` ni de la CI.
+
+Sa sortie donne le nombre de langues concernées par une clé, mais pas lesquelles, et ne permet donc pas de contrôler `fr-FR`. La [PR 02](stack/02-board-view-registry.md) ajoute une option `--only=fr-FR`, avec un code de sortie non nul si cette langue est incomplète. Ce contrôle ciblé devient le critère, et il est lancé en CI.
 
 ### D9 - Mobile
 
@@ -117,7 +119,9 @@ La licence demande un accord écrit pour utiliser le nom PLANKA dans un nom de d
 
 - Base vierge, sans compte `demo`, avec des secrets générés.
 - Un compte admin et des comptes normaux, avec 2FA activé à la main sur chacun, car rien ne permet de l'imposer.
-- La limitation des connexions intégrée à Planka suffit, sans fail2ban, à condition que `TRUST_PROXY` transmette bien l'IP réelle, ce que la mise en service vérifie.
+- La limitation des connexions intégrée à Planka suffit, sans fail2ban, à une condition : le client ne doit pas pouvoir choisir l'IP vue par l'application.
+
+**Risque d'usurpation d'IP.** Avec `TRUST_PROXY=true`, `utils/remote-address.js` retient `request.ips[0]`, soit l'adresse la plus à gauche de `X-Forwarded-For`. Apache ajoute l'IP réelle à la suite de l'en-tête reçu, donc cette première adresse peut venir du client. Sans correction, un attaquant contourne la limite par IP et fausse les journaux. Le proxy supprime donc l'en-tête entrant ([PR 12](stack/12-deploy-kit.md)), et la mise en service le vérifie avec un en-tête falsifié.
 
 ### D20 - E-mails et fichiers
 
@@ -125,7 +129,9 @@ SMTP par variables d'environnement, avec un envoi de test. 100 Mo maximum par fi
 
 ### D21 - Sauvegardes
 
-`pg_dump` et volume `data` envoyés par restic vers un dépôt hors du VPS. Rétention de 30 jours. Restauration testée avant la mise en service. `docker-backup.sh` n'est pas utilisé, car il se présente lui-même comme un exemple.
+`pg_dump` et volume `data` envoyés par restic vers un dépôt hors du VPS. Rétention de 30 jours. Restauration testée avant la mise en service.
+
+L'application est arrêtée le temps de la sauvegarde, puis relancée même en cas d'échec. Un dump cohérent ne suffit pas : une pièce jointe supprimée entre le dump et la lecture des fichiers laisserait une référence SQL sans son fichier, car `attachments/delete-one.js` efface aussi le fichier. Cette courte interruption nocturne est acceptable pour cet usage. `docker-backup.sh` n'est pas utilisé, car il se présente lui-même comme un exemple.
 
 ### D22 - Maintenance
 

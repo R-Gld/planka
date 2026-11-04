@@ -25,6 +25,7 @@ Chaque point se termine sur une observation concrète.
 - [ ] Aucun compte `demo`, et `SECRET_KEY` différente de `notsecretkey`.
 - [ ] `SHOW_DETAILED_AUTH_ERRORS` non activé.
 - [ ] **Limitation des connexions :** depuis une IP externe, répéter les échecs jusqu'au blocage, puis vérifier dans les journaux de l'application que l'IP enregistrée est bien la vraie IP cliente et non `127.0.0.1`. Sinon, corriger la transmission de l'IP avant d'ouvrir l'accès, car tous les clients partageraient une même limite.
+- [ ] **Usurpation d'IP :** refaire le test en envoyant un `X-Forwarded-For` différent à chaque essai. Le blocage arrive au même moment, et les journaux montrent toujours la vraie IP. Vérifier aussi une connexion WebSocket. Tant que ce point échoue, le service ne doit pas être ouvert ([D19](../decisions.md#d19---connexion-et-comptes)).
 
 ### Fonctionnement
 
@@ -39,7 +40,8 @@ Chaque point se termine sur une observation concrète.
 
 - [ ] `backup.sh` programmé pour une exécution quotidienne.
 - [ ] Une première sauvegarde visible avec `restic snapshots`.
-- [ ] **Restauration testée** vers une pile séparée : cartes et pièces jointes retrouvées.
+- [ ] L'application redémarre seule après une sauvegarde, y compris après un échec provoqué.
+- [ ] **Restauration testée** vers une pile séparée : cartes et pièces jointes retrouvées, chaque pièce jointe avec son fichier.
 - [ ] Mot de passe du dépôt restic conservé hors du serveur. Sans lui, les sauvegardes sont perdues.
 
 ### Exploitation
