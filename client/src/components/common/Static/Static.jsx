@@ -12,7 +12,7 @@ import { useTransitioning } from '../../../lib/hooks';
 import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
-import { BoardViews } from '../../../constants/Enums';
+import { getBoardView } from '../../boards/Board/board-view-meta';
 import Home from '../Home';
 import GhostError from '../GhostError';
 import Board from '../../boards/Board';
@@ -95,7 +95,7 @@ const Static = React.memo(() => {
   } else {
     wrapperClassNames = [
       isFavoritesActive ? styles.wrapperBoardWithFavorites : styles.wrapperBoard,
-      [BoardViews.GRID, BoardViews.LIST].includes(board.view) && styles.wrapperVertical,
+      getBoardView(board.view)?.isVerticalLayout && styles.wrapperVertical,
       styles.wrapperFlex,
     ];
 

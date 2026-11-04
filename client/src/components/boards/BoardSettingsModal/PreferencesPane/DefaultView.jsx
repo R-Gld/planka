@@ -10,16 +10,10 @@ import { Icon, Menu } from 'semantic-ui-react';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
-import { BoardViews } from '../../../../constants/Enums';
-import { BoardViewIcons } from '../../../../constants/Icons';
+import { BoardContexts } from '../../../../constants/Enums';
+import { getSelectableBoardViews } from '../../Board/board-view-meta';
 
 import styles from './DefaultView.module.scss';
-
-const DESCRIPTION_BY_VIEW = {
-  [BoardViews.KANBAN]: 'common.visualTaskManagementWithLists',
-  [BoardViews.GRID]: 'common.dynamicAndUnevenlySpacedLayout',
-  [BoardViews.LIST]: 'common.sequentialDisplayOfCards',
-};
 
 const DefaultView = React.memo(() => {
   const selectBoardById = useMemo(() => selectors.makeSelectBoardById(), []);
@@ -43,19 +37,21 @@ const DefaultView = React.memo(() => {
 
   return (
     <Menu secondary vertical className={styles.menu}>
-      {[BoardViews.KANBAN, BoardViews.GRID, BoardViews.LIST].map((view) => (
-        <Menu.Item
-          key={view}
-          value={view}
-          active={view === board.defaultView}
-          className={styles.menuItem}
-          onClick={handleSelectClick}
-        >
-          <Icon name={BoardViewIcons[view]} className={styles.menuItemIcon} />
-          <div className={styles.menuItemTitle}>{t(`common.${view}`)}</div>
-          <p className={styles.menuItemDescription}>{t(DESCRIPTION_BY_VIEW[view])}</p>
-        </Menu.Item>
-      ))}
+      {getSelectableBoardViews(BoardContexts.BOARD).map(
+        ({ id, icon, labelKey, descriptionKey }) => (
+          <Menu.Item
+            key={id}
+            value={id}
+            active={id === board.defaultView}
+            className={styles.menuItem}
+            onClick={handleSelectClick}
+          >
+            <Icon name={icon} className={styles.menuItemIcon} />
+            <div className={styles.menuItemTitle}>{t(labelKey)}</div>
+            <p className={styles.menuItemDescription}>{t(descriptionKey)}</p>
+          </Menu.Item>
+        ),
+      )}
     </Menu>
   );
 });

@@ -9,8 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { BoardViews } from '../../../constants/Enums';
-import GridView from './GridView';
-import ListView from './ListView';
+import getBoardViewComponent from './board-view-registry';
 
 const FiniteContent = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
@@ -30,18 +29,7 @@ const FiniteContent = React.memo(() => {
     dispatch(entryActions.pasteCardInCurrentContext());
   }, [dispatch]);
 
-  let View;
-  switch (board.view) {
-    case BoardViews.GRID:
-      View = GridView;
-
-      break;
-    case BoardViews.LIST:
-      View = ListView;
-
-      break;
-    default:
-  }
+  const View = getBoardViewComponent(board.view);
 
   return (
     <View
