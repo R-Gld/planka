@@ -58,6 +58,14 @@ describe('static route path resolution', () => {
   });
 });
 
+// Waits for the file to be closed: a stream destroyed while it is still opening reports
+// its failure later, and would do so unhandled once the directory has been removed
+const closeStream = (stream) =>
+  new Promise((resolve) => {
+    stream.once('close', resolve);
+    stream.destroy();
+  });
+
 describe('LocalFileManager.read with a narrower root', () => {
   let tmpDir;
   let previousSails;
@@ -83,7 +91,7 @@ describe('LocalFileManager.read with a narrower root', () => {
       withHeaders: true,
       rootPathSegment: 'protected/user-avatars',
     });
-    stream.destroy();
+    await closeStream(stream);
   });
 
   it('rejects a sibling directory of the uploads root', async () => {
@@ -101,6 +109,6 @@ describe('LocalFileManager.read with a narrower root', () => {
 
   it('still allows it without a narrower root', async () => {
     const stream = await new LocalFileManager().read('private/attachments/1/secret.txt');
-    stream.destroy();
+    await closeStream(stream);
   });
 });

@@ -37,7 +37,9 @@ module.exports = function defineWatcherHook(sails) {
     async initialize() {
       sails.log.info('Initializing custom hook (`watcher`)');
 
-      setInterval(checkSocketConnectionsToLogout, 60 * 1000);
+      // Unreferenced so that this timer alone never keeps the process alive once Sails
+      // has been lowered, which left the test runner hanging after its last test
+      setInterval(checkSocketConnectionsToLogout, 60 * 1000).unref();
     },
   };
 };

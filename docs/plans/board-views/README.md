@@ -52,6 +52,7 @@ Chaque PR a pour base la branche de la précédente.
 - **Avancement :** une PR est ouverte quand ses critères de fin sont remplis. Le travail continue sur la suivante sans attendre la revue, puisque la pile est prévue pour ça.
 - **Correction après revue :** corriger sur la branche concernée, puis `git rebase --update-refs` depuis le sommet de la pile et `git push --force-with-lease` sur chaque branche touchée.
 - **Fusion :** du bas vers le haut, en « merge commit ». Un squash réécrirait les commits et casserait les branches au-dessus. GitHub recible la PR suivante quand la branche de base est supprimée.
+- **Identité de fusion :** toujours `gh pr merge --merge --author-email "$(git config user.email)"`. Sans cette option, GitHub écrit l'adresse principale du compte dans le commit de fusion, qui devient public.
 - **Synchronisation avec `upstream` pendant la pile :** uniquement sur `master`, puis rebase de toute la pile.
 
 ## Critères communs à toute PR
@@ -85,11 +86,11 @@ Ils s'ajoutent aux critères de chaque plan. Une PR n'est ouverte que lorsqu'ils
 
 Le dépôt est public. Seules des informations génériques y entrent : Apache, Docker Compose, restic, Let's Encrypt, GitHub Actions.
 
-**Interdit dans le dépôt, les PR, les commits et les messages de CI :** nom de domaine ou sous-domaine réel, IP, fournisseur d'hébergement, port réel, chemins de la machine, nom du service de stockage des sauvegardes, identifiants, adresses e-mail, informations sur les utilisateurs et les autres services du serveur.
+**Interdit dans le dépôt, les PR, les commits et les messages de CI :** nom de domaine ou sous-domaine réel, IP, fournisseur d'hébergement, port réel, chemins de la machine, nom du service de stockage des sauvegardes, identifiants, autres adresses e-mail, informations sur les utilisateurs et les autres services du serveur.
 
 **À la place :** des valeurs factices comme `kanban.example.com`, `<PORT>` ou `<RESTIC_REPOSITORY>`. Les vraies valeurs vivent uniquement sur le serveur, dans des fichiers ignorés par git.
 
-**Identité git :** ce dépôt utilise l'adresse `noreply` de GitHub en configuration locale. Vérifier avant chaque push :
+**Identité git :** les commits de ce dépôt sont signés et utilisent l'adresse publique choisie pour ce projet, en configuration locale. C'est la seule adresse autorisée dans l'historique. Vérifier avant chaque push :
 
 ```sh
 git log --format='%ae %ce' origin/master..HEAD | sort -u
@@ -101,6 +102,7 @@ Mettre à jour cette ligne de chaque PR dans la PR elle-même, au moment où ell
 
 | PR | État |
 |---|---|
-| 00 | en revue |
-| 01 à 12 | à faire |
+| 00 | fusionnée |
+| 01 | en revue |
+| 02 à 12 | à faire |
 | Mise en service | à faire |
