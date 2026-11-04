@@ -26,6 +26,7 @@
     "server:start:prod": "npm run start:prod --prefix server",
     "server:swagger:generate": "npm run swagger:generate --prefix server",
     "server:test": "npm test --prefix server",
+    "server:test:postgres": "npm run test:postgres --prefix server",
     "start": "concurrently -n server,client \"npm run server:start\" \"npm run client:start\"",
     "test": "npm run server:test && npm run client:test"
   },
