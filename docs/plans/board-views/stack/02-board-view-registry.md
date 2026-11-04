@@ -24,7 +24,7 @@ Refactoring sans changement de comportement, qui prépare l'ajout des vues. Voir
 | `Board/FiniteContent.jsx` | Le `switch` devient une lecture du registre |
 | `Static/Static.jsx` | `isVerticalLayout` remplace la liste en dur |
 
-Le sélecteur doit aussi passer à la ligne proprement quand il aura sept boutons sur un petit écran. On le vérifie ici à sept boutons factices, retirés avant le commit.
+Le sélecteur doit rester utilisable avec sept boutons sur un petit écran. Vérifié avec sept boutons factices, retirés avant le commit : ils tiennent sur une ligne de 253 px, et la barre d'actions défile déjà horizontalement. Aucun changement de CSS n'est donc nécessaire.
 
 **Fini quand** les trois vues se comportent exactement comme avant, y compris en archive et en corbeille, vérifié à la main et par les tests d'acceptation.
 

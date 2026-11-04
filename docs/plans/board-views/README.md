@@ -102,7 +102,7 @@ Mettre à jour cette ligne de chaque PR dans la PR elle-même, au moment où ell
 
 | PR | État |
 |---|---|
-| 00 | fusionnée |
-| 01 | en revue |
-| 02 à 12 | à faire |
+| 00 et 01 | fusionnées |
+| 02 | en revue |
+| 03 à 12 | à faire |
 | Mise en service | à faire |
