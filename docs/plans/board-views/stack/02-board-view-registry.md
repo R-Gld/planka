@@ -37,6 +37,15 @@ Le message de limite et le compteur de cartes non placées servent à plusieurs 
 
 **Fini quand** le composant est utilisé par la PR 03, qui reste la preuve de son utilité. S'il n'y sert pas, le retirer plutôt que de le garder sans usage.
 
+### 4. Contrôler les traductions françaises
+
+Ces clés sont les premières à laisser les autres langues incomplètes, et la sortie actuelle de `client/scripts/check-locales.js` ne dit pas lesquelles ([D8](../decisions.md#d8---traductions)).
+
+- Ajouter l'option `--only=<langue>` au script, sur `login.js` et `core.js`. Sans option, il garde son comportement actuel.
+- Ajouter le script `locales:check:fr` dans `client/package.json` et le lancer en CI dans `lint.yml`.
+
+**Fini quand** le contrôle passe, puis échoue avec un code non nul et le nom de la clé quand une clé est retirée temporairement de `fr-FR`, et passe même si d'autres langues sont incomplètes.
+
 ## Merge Danger
 
 Porte réversible. Rayon d'action : sélecteur de vue et réglage de vue par défaut. Une régression toucherait tous les tableaux, d'où la vérification manuelle des trois contextes.

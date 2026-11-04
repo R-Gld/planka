@@ -44,9 +44,12 @@ deploy/
 
 ### 3. Apache
 
-Modèle générique : redirection HTTP vers HTTPS, `ProxyPreserveHost`, `X-Forwarded-Proto: https`, en-têtes de sécurité, et WebSockets relayés **avant** le `ProxyPass /` :
+Modèle générique : redirection HTTP vers HTTPS, `ProxyPreserveHost`, `X-Forwarded-Proto: https`, en-têtes de sécurité, suppression du `X-Forwarded-For` reçu ([D19](../decisions.md#d19---connexion-et-comptes)), et WebSockets relayés **avant** le `ProxyPass /` :
 
 ```apache
+# Drop any client-supplied value, the proxy then adds the real address
+RequestHeader unset X-Forwarded-For early
+
 ProxyPass /socket.io/ ws://127.0.0.1:<PORT>/socket.io/
 ProxyPassReverse /socket.io/ ws://127.0.0.1:<PORT>/socket.io/
 ProxyPass / http://127.0.0.1:<PORT>/
@@ -57,20 +60,30 @@ ProxyPassReverse / http://127.0.0.1:<PORT>/
 - Vérifier que `TimeOut` et `ProxyTimeout` laissent passer un envoi de 100 Mo.
 - Le modèle n'ajoute pas de `Content-Security-Policy` : si l'administrateur en a une, il doit autoriser le serveur de tuiles et Nominatim.
 
-**Fini quand** le modèle est testé derrière un Apache local en conteneur, avec le temps réel fonctionnel (`/socket.io` passe bien en WebSocket) et l'IP du client transmise.
+**Fini quand** le modèle est testé derrière un Apache local en conteneur, avec :
+
+- le temps réel fonctionnel, `/socket.io` passant bien en WebSocket ;
+- une requête portant `X-Forwarded-For: 1.2.3.4` vue par l'application avec l'IP réelle, en HTTP et sur la connexion WebSocket, vérifié dans les journaux de connexion ;
+- la limite par IP atteinte même en changeant cet en-tête à chaque essai.
 
 ### 4. Sauvegarde et restauration
 
 `backup.sh` et `restore.sh`, configurés uniquement par variables d'environnement (`RESTIC_REPOSITORY`, `RESTIC_PASSWORD_FILE`) :
 
-- `pg_dump` cohérent, jamais une copie à chaud des fichiers de Postgres ;
+- arrêt de l'application avec `docker compose stop` avant le dump, Postgres restant actif, pour éviter toute écriture jusqu'à la fin de la capture des fichiers ([D21](../decisions.md#d21---sauvegardes)) ;
+- **relance garantie par un `trap ... EXIT`**, même si une étape échoue ;
+- `pg_dump`, jamais une copie à chaud des fichiers de Postgres ;
 - volume `data` et dump envoyés par `restic backup` ;
-- `restic forget --keep-daily 30 --prune` ;
+- application relancée dès la fin de la capture, sans attendre `restic forget --keep-daily 30 --prune`, qui peut être long ;
 - `set -euo pipefail` et code de sortie différent de 0 en cas d'échec, pour que le planificateur le remarque.
 
 Ils peuvent être lancés seuls ou appelés par un autre script ou un planificateur.
 
-**Fini quand** une sauvegarde suivie d'une restauration, vers un dépôt restic local et une pile vide, redonne exactement les mêmes cartes et pièces jointes.
+**Fini quand** :
+
+- une sauvegarde suivie d'une restauration, vers un dépôt restic local et une pile vide, redonne exactement les mêmes cartes et pièces jointes ;
+- chaque pièce jointe restaurée a bien son fichier ;
+- un échec volontaire de restic laisse l'application relancée, avec un code de sortie non nul.
 
 ### 5. Procédure et maintenance
 

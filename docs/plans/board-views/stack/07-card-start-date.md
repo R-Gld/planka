@@ -10,13 +10,13 @@ Spécification : [D13](../decisions.md#d13---timeline). Les fichiers à modifier
 
 `server/db/migrations/<date>_add_start_date_to_card.js` : colonne `start_date`, `timestamp` nullable, avec `down` qui la retire.
 
-Tests : `up` puis `down` sur la base de test.
+Tests dans la suite PostgreSQL : `up` puis `down`.
 
 **Fini quand** les cartes existantes gardent `start_date = null` et que `down` restaure le schéma.
 
 ### 2. API
 
-Tests d'intégration d'abord, une tranche à la fois :
+Tests dans la suite PostgreSQL d'abord, une tranche à la fois :
 
 1. `PATCH` avec `startDate` : enregistré et renvoyé.
 2. `startDate: null` : efface la date.

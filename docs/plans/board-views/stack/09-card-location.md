@@ -10,13 +10,13 @@ Spécification : [D14](../decisions.md#d14---carte-géographique).
 
 `<date>_add_location_to_card.js` : `latitude` et `longitude` en `double precision` nullable, `location_name` en `text` nullable, et une contrainte `CHECK` : les deux coordonnées sont nulles ensemble ou renseignées ensemble.
 
-Tests : `up` puis `down`, et rejet d'une ligne avec une seule coordonnée.
+Tests dans la suite PostgreSQL : `up` puis `down`, et rejet d'une ligne avec une seule coordonnée.
 
 **Fini quand** ces tests passent.
 
 ### 2. API
 
-Tests d'intégration d'abord :
+Tests dans la suite PostgreSQL d'abord :
 
 1. `PATCH` avec latitude, longitude et nom : enregistrés.
 2. Les trois à `null` : position effacée.
@@ -34,11 +34,17 @@ Implémentation aux [points d'intégration habituels](../architecture.md#points-
 ### 3. Logique et URL configurables
 
 - `src/utils/geo-location.js` : `parseLocation(input)` et `groupMappableCards(cards)`, testés en Jest (coordonnées valides, limites, valeurs nulles, cartes non placées).
-- Variable serveur `MAP_TILE_URL`, avec l'URL OpenStreetMap comme valeur par défaut et son attribution dans `MAP_TILE_ATTRIBUTION`. Elles sont transmises au client par `api/controllers/config`, en suivant la façon dont le reste de la configuration publique est exposé, et documentées dans `.env.sample`.
+- Variable serveur `MAP_TILE_URL`, avec l'URL OpenStreetMap comme valeur par défaut et son attribution dans `MAP_TILE_ATTRIBUTION`, lues dans `config/custom.js` et documentées dans `.env.sample`.
+- Elles sont transmises au client par `helpers/bootstrap/present-one.js`. **Pas par `/api/config` :** cet endpoint est réservé aux administrateurs (`config/policies.js`) et le client ne le charge que pour eux, donc les comptes normaux n'auraient pas de fond de carte. `/api/bootstrap` est chargé pour tout le monde.
+- `/api/bootstrap` répond aussi sans authentification. Ces deux valeurs n'y sont pas sensibles, à condition que l'URL ne contienne pas de clé d'API : `.env.sample` le signale.
 
-Test : `GET /api/config` renvoie ces valeurs, sans exposer d'autre variable.
+Tests dans la suite existante, sans ouvrir l'endpoint de configuration administrative :
 
-**Fini quand** ces tests passent.
+1. Compte non administrateur : `GET /api/bootstrap` renvoie les deux valeurs.
+2. Sans variable définie : les valeurs OpenStreetMap par défaut.
+3. Compte non administrateur : `GET /api/config` reste refusé.
+
+**Fini quand** ces tests passent et que la carte s'affiche avec un compte non administrateur.
 
 ### 4. Module Leaflet unique
 

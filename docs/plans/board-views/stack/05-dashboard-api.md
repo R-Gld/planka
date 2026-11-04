@@ -34,7 +34,7 @@ Les chronomètres en cours sont dans les mêmes `items`, repérables par `stopwa
 
 ## Étapes
 
-Tests d'intégration Mocha + supertest sur une vraie base, dans `server/test/integration/controllers/dashboard/`. Une tranche à la fois :
+Tests dans la suite PostgreSQL, `server/test/postgres/dashboard.test.js`, car la requête doit s'exécuter pour de vrai. Une tranche à la fois :
 
 1. Sans authentification : 401.
 2. Carte dont l'utilisateur est membre : renvoyée.

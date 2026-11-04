@@ -79,13 +79,22 @@ Autres protections :
 | Seam | Outil | Attrape | Laisse passer |
 |---|---|---|---|
 | Fonctions pures listées ci-dessus | Jest, valeurs attendues écrites à la main | Dates, classements, regroupements, validation | Rendu, navigateur |
-| Endpoints et `PATCH /api/cards/:id` | Mocha + supertest, sur une vraie base | Droits, validation, forme des réponses, fuite de champs | Interface |
-| Migrations | Mocha : `up` puis `down` sur la base de test | Schéma et réversibilité | Volume réel |
-| Parcours complet d'une vue | Cucumber + Playwright, déjà en CI | Enregistrement de la vue, navigation, ouverture de carte | Finesse visuelle |
+| Valeurs d'énumération, `bootstrap` | Suite Mocha existante (`sails-disk`) | Validation simple et forme des réponses | SQL et contraintes |
+| Endpoints et champs de carte | Suite PostgreSQL : Mocha + supertest | Droits, requêtes SQL, validation, fuite de champs | Interface |
+| Migrations et contraintes `CHECK` | Suite PostgreSQL : `up` puis `down` | Schéma et réversibilité | Volume réel |
+| Parcours complet d'une vue | Cucumber + Playwright, à activer en CI ([PR 01](stack/01-fork-foundation.md)) | Enregistrement de la vue, navigation, ouverture de carte | Finesse visuelle |
 
 **Vérifié à la main, avec une capture dans la PR :** rendu visuel, glisser-déposer au pointeur, affichage sur petit écran, tuiles et Nominatim réels.
 
-Pas de mock de la base : les tests serveur existants utilisent une vraie base, et ceux-ci aussi. Les services externes (Nominatim, tuiles) sont bloqués ou simulés dans les tests d'acceptation par le routage réseau de Playwright, pour que la CI n'en dépende pas.
+Les services externes (Nominatim, tuiles) sont bloqués ou simulés dans les tests d'acceptation par le routage réseau de Playwright, pour que la CI n'en dépende pas.
+
+### Deux suites serveur
+
+La suite existante (`npm run server:test`) tourne sur `sails-disk` en mémoire, car `test/lifecycle.test.js` force `NODE_ENV=test` et `config/env/test.js` choisit cet adaptateur. Elle ne touche donc jamais PostgreSQL : ni les requêtes SQL natives, ni les migrations, ni les contraintes n'y sont testées.
+
+La [PR 01](stack/01-fork-foundation.md) ajoute une suite séparée, `npm run server:test:postgres`, sans laquelle les PR 05, 07 et 09 n'auraient aucune preuve réelle.
+
+**Règle :** tout ce qui dépend du schéma, du SQL ou d'une contrainte va dans la suite PostgreSQL. Le reste reste dans la suite existante.
 
 ## Points d'intégration côté serveur
 

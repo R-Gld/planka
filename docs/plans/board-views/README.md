@@ -59,7 +59,7 @@ Chaque PR a pour base la branche de la précédente.
 Ils s'ajoutent aux critères de chaque plan. Une PR n'est ouverte que lorsqu'ils sont tous remplis.
 
 - `npm run lint` passe à la racine.
-- `npm run server:test` et `npm run client:test` passent, et tout nouveau comportement a suivi le cycle rouge → vert à un seam prévu dans [`architecture.md`](architecture.md#seams-de-test).
+- `npm run server:test`, `npm run server:test:postgres` et `npm run client:test` passent, et tout nouveau comportement a suivi le cycle rouge → vert à un seam prévu dans [`architecture.md`](architecture.md#seams-de-test).
 - Une PR qui touche à l'interface a été vérifiée dans l'app lancée, avec une capture ou un scénario d'acceptation joint à la PR.
 - Les chaînes nouvelles existent en `en-US` et `fr-FR` (voir [D8](decisions.md#d8---traductions)).
 - Le diff respecte la [confidentialité](#confidentialité).
