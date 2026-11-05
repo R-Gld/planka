@@ -128,7 +128,12 @@ export default {
       canManageSystemWideSettingsAndActAsProjectOwner:
         'Peut gérer les paramètres globaux du système et agir en tant que propriétaire de projet.',
       canOnlyViewBoard: 'Peut uniquement voir le tableau.',
+      calendar: 'Calendrier',
       cardActions_title: 'Actions sur la carte',
+      cardsLaidOutByDueDate: 'Cartes disposées sur un calendrier selon leur échéance.',
+      cardsWithoutDueDate_one: "{{count}} carte sans échéance n'est pas affichée.",
+      cardsWithoutDueDate_many: '{{count}} cartes sans échéance ne sont pas affichées.',
+      cardsWithoutDueDate_other: '{{count}} cartes sans échéance ne sont pas affichées.',
       cardNotFound_title: 'Carte non trouvée',
       cardsOnThisListAreAvailableToAllBoardMembers:
         'Les cartes de cette liste sont disponibles pour tous les membres du tableau.',
@@ -348,6 +353,10 @@ export default {
       noProjects: 'Pas de projet',
       noSavedFilters: 'Pas de filtre sauvegardé',
       noUnreadNotifications: 'Aucune notification non lue.',
+      moreCards_one: '{{count}} carte de plus',
+      moreCards_many: '{{count}} cartes de plus',
+      moreCards_other: '{{count}} cartes de plus',
+      month: 'Mois',
       notifications: 'Notifications',
       oldestFirst: 'Le plus ancien en premier',
       onlyOneManagerShouldRemainToMakeThisProjectPrivate:
@@ -439,6 +448,7 @@ export default {
       team: "Mes projets d'équipe",
       termsOfService_title: 'Conditions de service',
       testLog_title: 'Journal de test',
+      today: "Aujourd'hui",
       thereIsNoPreviewAvailableForThisAttachment:
         "Il n'y a pas d'aperçu disponible pour cette pièce jointe.",
       time: 'Temps',
@@ -488,6 +498,7 @@ export default {
       viewLimitReached:
         'Affichage de {{shown}} éléments sur {{total}}. Utilisez les filtres pour réduire la liste.',
       visualTaskManagementWithLists: 'Management visuel des tâches avec des listes.',
+      week: 'Semaine',
       webhooks: 'Webhooks',
       whatsNew_title: 'Quoi de neuf',
       withoutBaseGroup: 'Sans groupe de base',
@@ -627,6 +638,8 @@ export default {
       revoke: 'Révoquer',
       save: 'Sauvegarder',
       sendTestEmail: 'Envoyer un e-mail de test',
+      showNextPeriod: 'Afficher la période suivante',
+      showPreviousPeriod: 'Afficher la période précédente',
       showActive: 'Voir les actifs',
       showAllAttachments: 'Afficher toutes les pièces jointes ({{hidden}} masquées)',
       showCardsWithThisUser: 'Voir les cartes avec cet utilisateur',
@@ -641,6 +654,7 @@ export default {
       stop: 'Arrêter',
       subscribe: "S'abonner",
       switchToGridProjectsView: 'Afficher les projets en grille',
+      switchToCalendarView: 'Passer à la vue calendrier',
       switchToGridView: 'Passer à la vue grille',
       switchToGroupedProjectsView: 'Afficher les projets groupés',
       switchToKanbanView: 'Passer à la vue Kanban',

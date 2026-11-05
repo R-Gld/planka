@@ -120,7 +120,11 @@ export default {
       canManageSystemWideSettingsAndActAsProjectOwner:
         'Can manage the system wide settings and act as project owner.',
       canOnlyViewBoard: 'Can only view the board.',
+      calendar: 'Calendar',
       cardActions_title: 'Card Actions',
+      cardsLaidOutByDueDate: 'Cards laid out on a calendar by due date.',
+      cardsWithoutDueDate_one: '{{count}} card without a due date is not shown.',
+      cardsWithoutDueDate_other: '{{count}} cards without a due date are not shown.',
       cardNotFound_title: 'Card Not Found',
       cardsOnThisListAreAvailableToAllBoardMembers:
         'Cards on this list are available to all board members.',
@@ -325,6 +329,9 @@ export default {
       noProjects: 'No projects',
       noSavedFilters: 'No saved filters',
       noUnreadNotifications: 'No unread notifications.',
+      moreCards_one: '{{count}} more card',
+      moreCards_other: '{{count}} more cards',
+      month: 'Month',
       notifications: 'Notifications',
       oldestFirst: 'Oldest first',
       onlyOneManagerShouldRemainToMakeThisProjectPrivate:
@@ -424,6 +431,7 @@ export default {
       team: 'Team',
       termsOfService_title: 'Terms of Service',
       testLog_title: 'Test Log',
+      today: 'Today',
       thereIsNoPreviewAvailableForThisAttachment:
         'There is no preview available for this attachment.',
       time: 'Time',
@@ -471,6 +479,7 @@ export default {
       viewLimitReached:
         'Showing {{shown}} of {{total}} items. Use the filters to narrow them down.',
       visualTaskManagementWithLists: 'Visual task management with lists.',
+      week: 'Week',
       webhooks: 'Webhooks',
       whatsNew_title: "What's New",
       withoutBaseGroup: 'Without base group',
@@ -611,6 +620,8 @@ export default {
       revoke: 'Revoke',
       save: 'Save',
       sendTestEmail: 'Send test email',
+      showNextPeriod: 'Show next period',
+      showPreviousPeriod: 'Show previous period',
       showActive: 'Show active',
       showAllAttachments: 'Show all attachments ({{hidden}} hidden)',
       showCardsWithThisUser: 'Show cards with this user',
@@ -625,6 +636,7 @@ export default {
       stop: 'Stop',
       subscribe: 'Subscribe',
       switchToGridProjectsView: 'Show projects as a grid',
+      switchToCalendarView: 'Switch to calendar view',
       switchToGridView: 'Switch to grid view',
       switchToGroupedProjectsView: 'Show projects grouped',
       switchToKanbanView: 'Switch to kanban view',

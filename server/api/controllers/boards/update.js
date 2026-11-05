@@ -39,7 +39,7 @@
  *                 example: Development Board
  *               defaultView:
  *                 type: string
- *                 enum: [kanban, grid, list]
+ *                 enum: [kanban, grid, list, calendar]
  *                 description: Default view for the board
  *                 example: kanban
  *               defaultCardType:

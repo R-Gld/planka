@@ -1,0 +1,135 @@
+/*!
+ * Part of a modified version of PLANKA (R-Gld/planka).
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .button {
+    background: rgba(0, 0, 0, 0.24);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 20px;
+    margin-right: 4px;
+    padding: 5px 12px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .buttonActive {
+    background: rgba(255, 255, 255, 0.24);
+    cursor: default;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 #ccc;
+    color: #17394d;
+    display: block;
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 4px;
+    overflow: hidden;
+    padding: 2px 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      background: #f5f6f7;
+    }
+  }
+
+  .cardCompleted {
+    opacity: 0.55;
+    text-decoration: line-through;
+  }
+
+  .date {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    width: 20px;
+  }
+
+  .dateToday {
+    background: #fff;
+    border-radius: 50%;
+    color: #17394d;
+    font-weight: bold;
+  }
+
+  .day {
+    background: rgba(0, 0, 0, 0.24);
+    min-height: 96px;
+    min-width: 0;
+    padding: 4px;
+  }
+
+  .dayOutside {
+    opacity: 0.55;
+  }
+
+  .grid {
+    display: grid;
+    gap: 2px;
+    grid-template-columns: repeat(7, minmax(84px, 1fr));
+    min-width: 600px;
+  }
+
+  .more {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 4px;
+    padding: 0 6px;
+    text-decoration: underline;
+  }
+
+  .scroller {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: 0 20px 20px;
+  }
+
+  .title {
+    color: #fff;
+    flex: 1;
+    font-size: 16px;
+    margin: 0 8px;
+    min-width: 160px;
+  }
+
+  .toolbar {
+    align-items: center;
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    padding: 0 20px 8px;
+  }
+
+  .weekday {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 4px;
+    text-align: center;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+}

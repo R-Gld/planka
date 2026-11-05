@@ -104,6 +104,7 @@ const Views = {
   KANBAN: 'kanban',
   GRID: 'grid',
   LIST: 'list',
+  CALENDAR: 'calendar',
 };
 
 const ImportTypes = {

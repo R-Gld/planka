@@ -4,6 +4,7 @@
  */
 
 import { BoardViews } from '../../../constants/Enums';
+import CalendarView from './CalendarView';
 import GridView from './GridView';
 import ListView from './ListView';
 
@@ -12,6 +13,7 @@ import ListView from './ListView';
 const COMPONENT_BY_VIEW = {
   [BoardViews.GRID]: GridView,
   [BoardViews.LIST]: ListView,
+  [BoardViews.CALENDAR]: CalendarView,
 };
 
 export default (id) => COMPONENT_BY_VIEW[id];
