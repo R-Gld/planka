@@ -32,14 +32,17 @@ Une carte s'ouvre en naviguant vers `Paths.CARDS`, et `Board.jsx` affiche alors 
 Ajouter une vue touche aujourd'hui `Enums.js`, `Icons.js`, `RightSide.jsx`, `DefaultView.jsx`, `FiniteContent.jsx`, `Static.jsx` et les locales. Le registre concentre cette connaissance.
 
 ```js
-// client/src/components/boards/Board/board-view-registry.js
-export const getBoardView = (view) => /* descripteur */;
+// client/src/components/boards/Board/board-view-meta.js
+export const getBoardView = (id) => /* descripteur */;
 export const getSelectableBoardViews = (context) => /* descripteurs */;
+
+// client/src/components/boards/Board/board-view-registry.js
+export default (id) => /* composant */;
 ```
 
-Un descripteur contient `id`, `icon`, `tooltipKey`, `descriptionKey`, `Component`, `contexts` et `isVerticalLayout`.
+Un descripteur contient `id`, `icon`, `labelKey`, `tooltipKey`, `descriptionKey`, `contexts` et `isVerticalLayout`. Les composants sont à part, car leurs imports (SCSS, SVG) ne se chargent pas sous Jest et l'en-tête n'a besoin que des métadonnées.
 
-- Ajouter une vue revient à ajouter une valeur à l'énumération, une entrée au registre et ses traductions.
+- Ajouter une vue revient à ajouter une valeur à l'énumération et à son icône, une entrée aux deux fichiers et ses traductions.
 - `contexts` limite les nouvelles vues à `BoardContexts.BOARD`. Les archives et la corbeille gardent leurs vues actuelles.
 - `kanban` reste à part dans `Board.jsx`, qui l'affiche sans passer par `FiniteContent`.
 - Les comparaisons sémantiques existantes restent en place : `view === KANBAN` dans `Header.jsx`, `ShortcutsProvider.jsx`, `Card/*` et `sagas/core/services/cards.js` signifient « kanban ou autre » et se comportent correctement pour les nouvelles vues. Il en va de même pour `isListView` dans `Filters.jsx`.
@@ -63,7 +66,7 @@ Pas de seam hypothétique : aucune abstraction de « fournisseur de carte » ou 
 
 ## Limite d'affichage
 
-`MAX_RENDERED_ITEMS = 2000` par vue, défini dans le registre. Au-delà, la vue affiche les éléments les plus proches de la période ou les plus récents, avec un message qui donne le nombre total et invite à filtrer.
+`MAX_RENDERED_ITEMS = 2000` par vue, défini dans `board-view-meta.js`. Au-delà, la vue affiche les éléments les plus proches de la période ou les plus récents, avec un message qui donne le nombre total et invite à filtrer.
 
 Autres protections :
 

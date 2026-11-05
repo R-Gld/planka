@@ -12,20 +12,10 @@ import { usePopup } from '../../../../lib/popup';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
-import { BoardContexts, BoardViews } from '../../../../constants/Enums';
-import { BoardViewIcons } from '../../../../constants/Icons';
+import { getSelectableBoardViews } from '../../Board/board-view-meta';
 import ActionsStep from './ActionsStep';
 
 import styles from './RightSide.module.scss';
-
-// One complete sentence per view rather than a view name interpolated into a
-// frame. A name that has to fit a slot has to be inflected to fit it, and the
-// frame is not the same shape in every language.
-const TOOLTIP_BY_VIEW = {
-  [BoardViews.KANBAN]: 'action.switchToKanbanView',
-  [BoardViews.GRID]: 'action.switchToGridView',
-  [BoardViews.LIST]: 'action.switchToListView',
-};
 
 const RightSide = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
@@ -42,25 +32,20 @@ const RightSide = React.memo(() => {
 
   const ActionsPopup = usePopup(ActionsStep);
 
-  const views = [BoardViews.GRID, BoardViews.LIST];
-  if (board.context === BoardContexts.BOARD) {
-    views.unshift(BoardViews.KANBAN);
-  }
-
   return (
     <>
       <div className={styles.action}>
         <div className={styles.buttonGroup}>
-          {views.map((view) => (
-            <Tooltip key={view} content={t(TOOLTIP_BY_VIEW[view])} disabled={view === board.view}>
+          {getSelectableBoardViews(board.context).map(({ id, icon, tooltipKey }) => (
+            <Tooltip key={id} content={t(tooltipKey)} disabled={id === board.view}>
               <button
                 type="button"
-                value={view}
-                disabled={view === board.view}
+                value={id}
+                disabled={id === board.view}
                 className={styles.button}
                 onClick={handleSelectViewClick}
               >
-                <Icon fitted name={BoardViewIcons[view]} />
+                <Icon fitted name={icon} />
               </button>
             </Tooltip>
           ))}

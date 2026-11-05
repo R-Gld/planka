@@ -7,6 +7,7 @@
     "postinstall": "patch-package",
     "lint": "eslint --ext js,jsx src --report-unused-disable-directives",
     "locales:check": "node scripts/check-locales.js",
+    "locales:check:fr": "node scripts/check-locales.js --only=fr-FR",
     "start": "vite",
     "test": "jest",
     "test:acceptance": "cucumber-js --import tests/acceptance/cucumber.conf.js --import tests/acceptance/steps/**/*.js --format @cucumber/pretty-formatter tests"

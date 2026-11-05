@@ -1,0 +1,17 @@
+/*!
+ * Part of a modified version of PLANKA (R-Gld/planka).
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .text {
+    margin-left: 8px;
+  }
+
+  .wrapper {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 13px;
+    line-height: 20px;
+    padding: 4px 20px;
+  }
+}

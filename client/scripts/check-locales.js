@@ -26,6 +26,9 @@
  *
  * Exits non-zero when a locale is incomplete. It is deliberately not part of `lint`: a pull
  * request that adds a string is expected to leave the other locales behind for a while.
+ *
+ * `--only=<language>` checks a single language against the reference, for a fork that
+ * maintains only some of them.
  */
 
 import { mkdtempSync, readdirSync, rmSync } from 'fs';
@@ -34,11 +37,17 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createServer } from 'vite';
 
+const ONLY_OPTION = '--only=';
+
 const REFERENCE_LANGUAGE = 'en-US';
 const BUNDLES = ['login.js', 'core.js'];
 const PLURAL_SUFFIX = /_(zero|one|two|few|many|other)$/;
 
 const localesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../src/locales');
+
+const onlyLanguage = process.argv
+  .find((argument) => argument.startsWith(ONLY_OPTION))
+  ?.slice(ONLY_OPTION.length);
 
 // Only `translation` holds our own strings. The sibling exports (`format`, `dateFns`,
 // `timeAgo`, `markdownEditor`) are per-locale data that is meant to differ.
@@ -90,6 +99,13 @@ const languages = readdirSync(localesDir, { withFileTypes: true })
   .map((entry) => entry.name)
   .sort();
 
+if (onlyLanguage && !languages.includes(onlyLanguage)) {
+  await server.close();
+  rmSync(cacheDir, { recursive: true, force: true });
+
+  throw new Error(`Unknown locale ${onlyLanguage}`);
+}
+
 async function inspect(bundle) {
   const loaded = await Promise.all(
     // Loaded through Vite so each locale's own imports resolve exactly as in the app.
@@ -111,6 +127,7 @@ async function inspect(bundle) {
 
   const behind = languages
     .filter((language) => language !== REFERENCE_LANGUAGE)
+    .filter((language) => !onlyLanguage || language === onlyLanguage)
     .map((language) => {
       const own = keysByLanguage[language];
       const present = new Set([...own].map(baseKey));
