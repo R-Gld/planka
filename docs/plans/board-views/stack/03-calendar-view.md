@@ -32,13 +32,13 @@ Test serveur : `PATCH /api/boards/:id` accepte `defaultView: 'calendar'` et reje
 ### 3. Construire la vue
 
 ```text
-<CalendarView cardIds> (entrée du registre)
+<CalendarView> (entrée du registre, lit selectFilteredCardsForCurrentBoard)
   useState(anchor, mode)
   <CalendarToolbar>    précédent, aujourd'hui, suivant, mois/semaine
   <ViewNotice>         N cartes sans date
   <CalendarGrid>
-    <CalendarDay>      +N au-delà de 4 cartes
-      <CalendarCard>   lien vers Paths.CARDS, atténuée si isDueCompleted
+    jour               +N au-delà de 4 cartes, qui déplie le jour au clic
+      carte            lien vers Paths.CARDS, atténuée si isDueCompleted
 ```
 
 - Ajouter `CALENDAR` à `BoardViews` et `BoardViewIcons`, et l'entrée au registre avec `contexts: [BOARD]`.

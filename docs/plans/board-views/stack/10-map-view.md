@@ -22,7 +22,7 @@ Ajouter `MAP: 'map'` à `Board.Views`, avec le test habituel.
 ### 3. Construire la vue
 
 ```text
-<MapView cardIds>
+<MapView>
   groupMappableCards(cards) -> { mappable, unplacedCount }
   <ViewNotice>       N cartes sans position
   <LeafletMap isClustered>
