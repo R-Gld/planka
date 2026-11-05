@@ -42,6 +42,15 @@ const BOARD_VIEWS = [
     contexts: ALL_CONTEXTS,
     isVerticalLayout: true,
   },
+  {
+    id: BoardViews.CALENDAR,
+    icon: BoardViewIcons[BoardViews.CALENDAR],
+    labelKey: 'common.calendar',
+    tooltipKey: 'action.switchToCalendarView',
+    descriptionKey: 'common.cardsLaidOutByDueDate',
+    contexts: [BoardContexts.BOARD],
+    isVerticalLayout: true,
+  },
 ];
 
 export const getBoardView = (id) => BOARD_VIEWS.find((view) => view.id === id);

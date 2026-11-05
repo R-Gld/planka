@@ -5,7 +5,12 @@ const idsOf = (views) => views.map(({ id }) => id);
 
 describe('getSelectableBoardViews', () => {
   test('offers every view on a regular board, kanban first', () => {
-    expect(idsOf(getSelectableBoardViews(BoardContexts.BOARD))).toEqual(['kanban', 'grid', 'list']);
+    expect(idsOf(getSelectableBoardViews(BoardContexts.BOARD))).toEqual([
+      'kanban',
+      'grid',
+      'list',
+      'calendar',
+    ]);
   });
 
   test('offers no kanban in the archive', () => {

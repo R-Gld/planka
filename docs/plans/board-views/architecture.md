@@ -23,7 +23,7 @@ boards/show ──> store redux-orm ──> getFilteredCardsModelArray()
  (cardUpdate, attachmentCreate...)     FiniteContent ──> vue active
 ```
 
-Une vue de tableau n'a qu'à recevoir `cardIds` et les lire depuis le store. Le chargement, les droits, les filtres et le temps réel sont déjà assurés ([D5](decisions.md#d5---les-vues-de-tableau-lisent-le-store-existant-à-valider)).
+Une vue de tableau n'a qu'à lire `selectFilteredCardsForCurrentBoard`, mémoïsé, plutôt qu'à interroger le store carte par carte. Le chargement, les droits, les filtres et le temps réel sont déjà assurés ([D5](decisions.md#d5---les-vues-de-tableau-lisent-le-store-existant-à-valider)).
 
 Une carte s'ouvre en naviguant vers `Paths.CARDS`, et `Board.jsx` affiche alors `CardModal` par-dessus la vue courante. Les nouvelles vues réutilisent ce mécanisme.
 
@@ -97,7 +97,9 @@ La suite existante (`npm run server:test`) tourne sur `sails-disk` en mémoire, 
 
 La [PR 01](stack/01-fork-foundation.md) ajoute une suite séparée, `npm run server:test:postgres`, sans laquelle les PR 05, 07 et 09 n'auraient aucune preuve réelle.
 
-**Règle :** tout ce qui dépend du schéma, du SQL ou d'une contrainte va dans la suite PostgreSQL. Le reste reste dans la suite existante.
+**Règle :** tout ce qui dépend du schéma, du SQL ou d'une contrainte va dans la suite PostgreSQL. Le reste reste dans la suite existante. `accept-terms.test.js`, qui exige PostgreSQL d'après son en-tête, tourne donc dans cette suite.
+
+Les globs de `server/package.json` sont entre guillemets : sinon, le shell réduit `**` à un seul niveau de dossiers et des fichiers de tests sont ignorés sans aucun message.
 
 ## Points d'intégration côté serveur
 

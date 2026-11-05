@@ -60,7 +60,7 @@ Pas de test de saga : ce seam n'est pas prévu. Le parcours d'échec est vérifi
 ### 5. Construire la vue
 
 ```text
-<TimelineView cardIds>
+<TimelineView>
   useState(zoom, range)
   <TimelineToolbar>     zoom, précédent, aujourd'hui, suivant
   <ViewNotice>          N cartes sans date, limite

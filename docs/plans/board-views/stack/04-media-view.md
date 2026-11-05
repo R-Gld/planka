@@ -29,7 +29,7 @@ Ajouter `MEDIA: 'media'` à `Board.Views`, avec le même test que pour le calend
 ### 3. Construire la vue
 
 ```text
-<MediaView cardIds>
+<MediaView>
   useSelector(attachments des cartes filtrées)
   <ViewNotice>        limite ou galerie vide
   <Gallery>           react-photoswipe-gallery, déjà une dépendance

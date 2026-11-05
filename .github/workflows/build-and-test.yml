@@ -77,6 +77,28 @@ jobs:
           npm run test:acceptance
         working-directory: ./client
 
+  client-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./client
+
+      - name: Run tests
+        run: npm test
+        working-directory: ./client
+
   server-tests:
     runs-on: ubuntu-latest
 
